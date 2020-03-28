@@ -1,17 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react"; //React 는 view를 만들기 위한 라이브러리
+import ReactDOM from "react-dom"; //ReactDom 은 UI 를 실제로 브라우저에 렌더링 할 떄 사용하는 라이브러리
+// 결국 둘다 필요
+import App from "Components/App";
+// import "./api"; //text 하기 위해
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(<App />, document.getElementById("root"));
