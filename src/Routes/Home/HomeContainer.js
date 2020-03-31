@@ -17,8 +17,40 @@ export default class extends React.Component {
     try {
       //try 하고, 뭔가 작동하지 않으면, error를 catch, 뭐가 발생하든, 끝에는 finally
       // async await, componentDidMount가 async 가 되어야 됨, wait를 원함, wait for me util I finished something
-      const nowPlaying = await moviesApi.nowPlaying(); //성공하든 실패하든 일단 끝날 떄 까지 기다림
+      //const nowPlaying = await moviesApi.nowPlaying(); //성공하든 실패하든 일단 끝날 떄 까지 기다림
+
+      //console.log(nowPlaying); 로 오브젝트안에 prop 들 확인
+      const {
+        data: { results: nowPlaying } // results를 nowPlaying으로 다시 이름을 줌, 변수명 변경하는 방법
+      } = await moviesApi.nowPlaying(); // Object deconstruction
+
+      const {
+        data: { results: upcoming }
+      } = await moviesApi.upcoming();
+
+      const {
+        data: { results: popular }
+      } = await moviesApi.popular();
+
+      //throw Error();
+
+      this.setState({
+        //state 안의 nowPlaying 값은 이제 여기 변수 nowPlaying 이랑 같음
+        nowPlaying,
+        upcoming,
+        popular //JS는 nowPlaying: nowPlaying 랑 nowPlaying 같다고 이해함
+      });
+
+      /*
+      const upcoming = await moviesApi.upcoming();
+      console.log(upcoming);
+      */
+      /*
       console.log(nowPlaying);
+      this.setState({
+        nowPlaying: nowPlaying
+      
+      });*/
     } catch {
       //catch는 error 메세지가 따라오지만 일단은 error 상태 값만 변경해 줌
       this.setState({
@@ -36,6 +68,7 @@ export default class extends React.Component {
     //HomePresenter로 바로 가는 모든 state값을 rendering함
     //여기에 presentation(보여주는것) 은 없음, 그냥 HomePresenter component만 있음
     const { nowPlaying, upcoming, popular, error, loading } = this.state;
+    console.log(this.state);
     return (
       <HomePresenter
         nowPlaying={nowPlaying}
@@ -47,3 +80,15 @@ export default class extends React.Component {
     );
   }
 }
+
+/*
+HomeContainer.js:67 {nowPlaying: null, upcoming: null, popular: null, error: null, loading: true}
+HomeContainer.js:67 {nowPlaying: Array(20), upcoming: Array(20), popular: Array(20), error: null, loading: true}
+HomeContainer.js:67 {nowPlaying: Array(20), upcoming: Array(20), popular: Array(20), error: null, loading: false}
+*/
+
+/* error 발생 시
+HomeContainer.js:68 {nowPlaying: null, upcoming: null, popular: null, error: null, loading: true}
+{nowPlaying: null, upcoming: null, popular: null, error: "Can't find movies information", loading: true}
+HomeContainer.js:68 {nowPlaying: null, upcoming: null, popular: null, error: "Can't find movies information", loading: false}
+*/
