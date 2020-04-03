@@ -18,6 +18,7 @@ const Backdrop = styled.div`
   background-image: url(${props => props.bgImage});
   background-position: center center;
   background-size: cover;
+  filter: blur(10px);
 `;
 
 const DetailPresenter = ({ result, loading, error }) =>
@@ -26,7 +27,11 @@ const DetailPresenter = ({ result, loading, error }) =>
   ) : (
     <Container>
       <Backdrop
-        bgImage={`https://image.tmdb.org/t/p/original${result.backdrop_path}`}
+        bgImage={
+          backdrop_path && backdrop_path != null
+            ? backdrop_path
+            : `https://image.tmdb.org/t/p/original${result.backdrop_path}`
+        }
       />
     </Container>
   );
