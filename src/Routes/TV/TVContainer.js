@@ -19,6 +19,7 @@ export default class extends React.Component {
       const {
         data: { results: popular }
       } = await tvApi.popular();
+      //throw Error();
       const {
         data: { results: airingToday }
       } = await tvApi.airingToday();

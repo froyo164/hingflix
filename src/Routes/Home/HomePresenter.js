@@ -3,6 +3,8 @@ import PropTypes from "prop-types"; //타입 체크를 위해 사용
 import styled from "styled-components";
 import Section from "Components/Section";
 import Loader from "../../Components/Loader";
+import Message from "../../Components/Message";
+import Poster from "../../Components/Poster";
 
 const Container = styled.div`
   padding: 0px 10px;
@@ -17,7 +19,16 @@ const HomePresenter = ({ nowPlaying, popular, upcoming, loading, error }) =>
       nowPlaying.length > 0 && ( // 이 둘중 하나의 조건이 false 이면 작동하지 않음, {nowPlaying && nowPlaying.length > 0
           <Section title="Now Playing">
             {nowPlaying.map(movie => (
-              <span key={movie.id}>{movie.title}</span>
+              <Poster
+                key={movie.id}
+                id={movie.id}
+                imageUrl={movie.poster_path}
+                title={movie.original_title}
+                rating={movie.vote_average}
+                year={movie.release_date && movie.release_date.substring(0, 4)}
+                isMovie={true}
+              />
+              /*Network  에 nowplaying*/
             ))}
           </Section>
         )}
@@ -25,7 +36,15 @@ const HomePresenter = ({ nowPlaying, popular, upcoming, loading, error }) =>
       upcoming.length > 0 && ( // 이 둘중 하나의 조건이 false 이면 작동하지 않음, {nowPlaying && nowPlaying.length > 0
           <Section title="Upcoming Movie">
             {upcoming.map(movie => (
-              <span key={movie.id}>{movie.title}</span>
+              <Poster
+                key={movie.id}
+                id={movie.id}
+                imageUrl={movie.poster_path}
+                title={movie.original_title}
+                rating={movie.vote_average}
+                year={movie.release_date && movie.release_date.substring(0, 4)}
+                isMovie={true}
+              />
             ))}
           </Section>
         )}
@@ -33,10 +52,20 @@ const HomePresenter = ({ nowPlaying, popular, upcoming, loading, error }) =>
       popular.length > 0 && ( // 이 둘중 하나의 조건이 false 이면 작동하지 않음, {nowPlaying && nowPlaying.length > 0
           <Section title="Popular Movies">
             {popular.map(movie => (
-              <span key={movie.id}>{movie.title}</span>
+              <Poster
+                key={movie.id}
+                id={movie.id}
+                imageUrl={movie.poster_path}
+                title={movie.original_title}
+                rating={movie.vote_average}
+                year={movie.release_date && movie.release_date.substring(0, 4)}
+                isMovie={true}
+              />
             ))}
           </Section>
         )}
+      {error && <Message color="e74c3c" text={error} />}
+      {/*error  가 있을 시에 'error' 를 보여줌, 이 error는 null 아님 text를 보여줄 것*/}
     </Container>
   );
 

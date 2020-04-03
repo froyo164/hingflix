@@ -1,24 +1,26 @@
 import React from "react";
 import SearchPresenter from "./SearchPresenter";
-import { moviesApi } from "../../api";
-import { tvApi } from "../../api";
+import { moviesApi, tvApi } from "../../api";
 
 export default class extends React.Component {
   state = {
     movieResults: null,
-    tvResult: null,
+    tvResults: null,
     // 누군가가 검색 시도 했을때, 양쪽 영화, 티비 결과를 둘다 보여주려고 함
     searchTerm: "", //사용자의 검색 값은 string
     loading: false, // default 로 아무것도 로딩 하지 않음(검색을 해야 로딩함)
     error: null
   };
 
+  /*
   componentDidMount() {
     //렌더 render() 가 성공적으로 실행되었다면, ComponentDidMount가 실행된다. 그리고 나서 setState 등이 실행되어도 다시 실행되지 않는다.
     this.handleSubmit();
   }
+  */
 
-  handleSubmit = () => {
+  handleSubmit = event => {
+    event.preventDefault();
     const { searchTerm } = this.state;
     if (searchTerm !== "") {
       this.searchByTerm();
@@ -34,6 +36,19 @@ config: {transformRequest: {…}, transformResponse: {…}, timeout: 0, xsrfCook
 request: XMLHttpRequest {readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, onreadystatechange: ƒ, …}
 __proto__: Object
 */
+
+  updateTerm = event => {
+    //console.log(event); SyntheticEvent {dispatchConfig: {…}, _targetInst: FiberNode, nativeEvent: InputEvent, type: "change", target: input.sc-fzplWN.gdJOPp, …}
+    const {
+      target: { value }
+    } = event;
+    //console.log(target); // <input placeholder="Search Movies or Tv shows..." class="sc-fzplwn gdjOPp" value>
+    // console.log(value); // 타입 한대로 하나의 letter 가 나옴
+    //console.log(value);
+    this.setState({
+      searchTerm: value
+    });
+  };
 
   /*
 const searchingBy = req.query.term;
@@ -63,16 +78,17 @@ Desctructuring
   };
   //handleSubmit 은 searchTermdl 빈칸(공백) 아닌걸 체크하고, 그 다음에 search 함수를 실행 할 것
   render() {
-    const { movieResults, tvResult, searchTerm, loading, error } = this.state;
+    const { movieResults, tvResults, searchTerm, loading, error } = this.state;
 
     return (
       <SearchPresenter
         movieResults={movieResults}
-        tvResult={tvResult}
+        tvResults={tvResults}
         loading={loading}
         error={error}
         searchTerm={searchTerm}
         handleSubmit={this.handleSubmit}
+        updateTerm={this.updateTerm}
       />
     );
   }
