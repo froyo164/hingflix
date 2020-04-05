@@ -7,6 +7,7 @@ const Container = styled.div`
   height: calc(100vh - 50px);
   width: 100%;
   position: relative;
+  padding: 50px;
 `;
 
 const Backdrop = styled.div`
@@ -18,7 +19,26 @@ const Backdrop = styled.div`
   background-image: url(${props => props.bgImage});
   background-position: center center;
   background-size: cover;
-  filter: blur(10px);
+  filter: blur(3px);
+  opacity: 0.5;
+  z-index: 0;
+`;
+
+const Content = styled.div`
+  display: flex;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  height: 100%;
+`;
+
+const Cover = styled.div`
+  width: 30%;
+  height: 100%;
+  background-image: url(${props => props.bgImage});
+  background-position: center center;
+  background-size: cover;
+  border-radius: 5px;
 `;
 
 const DetailPresenter = ({ result, loading, error }) =>
@@ -28,11 +48,20 @@ const DetailPresenter = ({ result, loading, error }) =>
     <Container>
       <Backdrop
         bgImage={
-          backdrop_path && backdrop_path != null
-            ? backdrop_path
-            : `https://image.tmdb.org/t/p/original${result.backdrop_path}`
+          result && result[`backdrop_path`]
+            ? `https://image.tmdb.org/t/p/original${result[`backdrop_path`]}`
+            : console.log(result)
         }
       />
+      <Content>
+        <Cover
+          bgImage={
+            result && result[`poster_path`]
+              ? `https://image.tmdb.org/t/p/original${result[`poster_path`]}`
+              : console.log(result)
+          }
+        />
+      </Content>
     </Container>
   );
 

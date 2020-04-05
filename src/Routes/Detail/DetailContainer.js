@@ -78,8 +78,10 @@ export default class extends React.Component {
     //console.log(this.props);
     //HomePresenter로 바로 가는 모든 state값을 rendering함
     //여기에 presentation(보여주는것) 은 없음, 그냥 HomePresenter component만 있음
+
     const { result, error, loading } = this.state;
-    //console.log(this.state);
+    console.log(this.state);
+
     return <DetailPresenter result={result} error={error} loading={loading} />;
   }
 }
